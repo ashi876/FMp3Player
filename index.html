@@ -14,27 +14,15 @@
 			<textarea name="jsonips" rows="20" cols="25" spellcheck="false" style="background-color:#F3F3F3;" readonly="true" placeholder="普通格式的IP地址将显示在此"></textarea>
 			<br>
 			<input type="radio" name="ipfamily" id="ipv4" value="v4" onclick="javascript:convert()" checked="checked">IPv4
-			<input type="radio" name="ipfamily" id="ipv6" value="v6" onclick="javascript:convert()">IPv6
+			<input type="radio" name="ipfamily" id="ipv6" value="v6" onclick="javascript:convert()">IPv6-测试功能
 		</center>
-		<div align="center">
-			<p name="message_shown">{{.Message}}</p>
-			<p name="error_message" style="display:none">提取文本中IP并整理
+		<div align="center">	
+			</p>
+			提取文本中IP并整理
 			</p>
 		</div>
 	</form>
 	<script type="text/javascript">
-    var proxyprovided = (typeof(IPHTMLVISABLE) != "undefined");
-	window.onload = function () {
-		var message = document.getElementsByName('message_shown');
-		var error = document.getElementsByName('error_message');
-		if (proxyprovided) {
-			message[0].style.display = '';
-			error[0].style.display = 'none';
-		} else {
-			message[0].style.display = 'none';
-			error[0].style.display = '';
-		}
-	}
 
 	function convert() {
 		var text1 = document.getElementsByTagName('textarea')[0];
