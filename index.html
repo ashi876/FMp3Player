@@ -38,15 +38,14 @@
 				matches = matches.sort().filter(function(el,i,a){if(i==a.indexOf(el))return 1;return 0})
 				text2.value = matches.join("\|") + "\|";
 				text3.value = matches.join("\n") ;
-				enable_submit(true);
 				// text2.select();
 			} else {
-				enable_submit(false);
 				text2.value = "没有检测到 IP 地址";
+				text3.value = "没有检测到 IP 地址";
 			}
 		} else {
-			enable_submit(false);
 			text2.value = "";
+			text3.value = "";
 		}
 	}
 	</script>
