@@ -42,48 +42,40 @@ int WINAPI WinMain( HINSTANCE hInstance,
 					LPSTR lpCmdLine, 
 					int nCmdShow )
 {
-/************************************************************************/
-	//帮助窗口
-	if(__argc<2) 
-	{
-		int fmp_help();
+	int fmp_help();
+	int fmp_stop();
+	int listfmp();
+	int fmp_singlerepeat();
+	int fmp_singleplay();	
+
+	//命令[fmp]帮助窗口
+	if(__argc<2) {
 		fmp_help();
 	}
 	
-/************************************************************************/
-	//命令fmp s关设备杀自身进程
-	else if(__argc==2&&(strcmp(__argv[1],"s")==0))
-	{
-		int fmp_stop();
-		fmp_stop();
-	}
-	
-/************************************************************************/
-	//命令fmp l播放当前目录mp3
-	else if(__argc==2&&(strcmp(__argv[1],"l")==0))
-	{
-		int listfmp();
-		listfmp();
-		return 0;
+	else if(__argc==2){
+		//命令[fmp s]关设备杀自身进程
+		if(strcmp(__argv[1],"s")==0){
+			fmp_stop();
+			return 0;
+		}
+		//命令[fmp s]关设备杀自身进程
+		else if(strcmp(__argv[1],"l")==0){
+			listfmp();
+			return 0;
+		}
+		
+		//命令[fmp xxx.mp3]单次播放 
+		fmp_singleplay();
+		return 0;	
 	}
 
-/************************************************************************/
-	//命令fmp r单曲循环
+	//命令[fmp r]单曲循环
 	else if(__argc==3&&(strcmp(__argv[1],"r")==0)) 
 	{  
-		int fmp_singlerepeat();
 		fmp_singlerepeat();
 		return 0;
 	}
-
-/************************************************************************/
-	//判断只有一个参数或文件名时单次播放
-	else if(__argc==2) 
-	{  
-		int fmp_singleplay();
-		fmp_singleplay();
-		return 0;
-	}	
 	return 0;
 }
 
@@ -146,7 +138,7 @@ int fmp_help()
 {
 	//printf("帮助窗口%s %s %s %d ",__argv[0],__argv[1],__argv[2],__argc);		
 	sprintf(msg,"Fmediaplay-%d位版\n命令格式:\n\t[fmp] [参数] [\"路径\\文件名.mp3\"]\n", sizeof(int*)*8);
-	MessageBox(NULL,msg,"FMediaPlayV1.0　千城真人",MB_OK);
+	MessageBox(NULL,msg,"FMediaPlay 千城真人",MB_OK);
 	//getch();
 	return 1;
 }
