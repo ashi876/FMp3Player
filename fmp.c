@@ -3,7 +3,7 @@
 	> 简介: win下的调用mci函数的mp3播放工具．可以在命令行下执行.
 	> 功能：可以单次和循环播放mp3和wav.未来将加入指定次数播放功能．
 			这些功能将用参数形式在命令行下实现．
-	> 时间：20171027
+	> 时间：20171011
 	
 	> 使用方法：
 		1.将快捷方式放在右键<发送到>菜单，直接把mp3发送到本工具上
@@ -46,7 +46,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 	//提示窗口
 	if(__argc<2) {
 	//printf("帮助窗口%s %s %s %d ",__argv[0],__argv[1],__argv[2],__argc);		
-	sprintf(msg,"Fmediaplay-%I64d位版\n命令格式:\n\t[mp3w] [参数] [\"路径\\文件名.mp3\"]\n", bits);
+	sprintf(msg,"Fmediaplay-%I64d位版\n命令格式:\n\t[fmp] [参数] [\"路径\\文件名.mp3\"]\n", bits);
 	MessageBox(NULL,msg,"FmediaplayV1.0　千城真人",MB_OK);
 	//getch();
 	return 1;
