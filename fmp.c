@@ -45,7 +45,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 {
 	int fmp_help();
 	int fmp_stop();
-	int listfmp();
+	int fmp_list();
 	int fmp_singlerepeat();
 	int fmp_singleplay();
 	int fmp_point();
@@ -64,7 +64,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 		}
 		//命令[fmp l]当前目录全曲播放，30首上限
 		else if(strcmp(__argv[1],"l")==0){
-			listfmp();
+			fmp_list();
 			return 0;
 		}
 		//命令[fmp xxx.mp3]单次播放 
@@ -153,7 +153,7 @@ int fmp_singleplay()
 
 /************************************************************************/
 //命令[fmp l]函数实现		
-int listfmp()
+int fmp_list()
 {	
 
 	int i,j;
