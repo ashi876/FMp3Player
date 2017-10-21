@@ -62,7 +62,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			fmp_stop();
 			return 0;
 		}
-		//命令[fmp l]当前目录歌曲循环，30首上限
+		//命令[fmp l]当前目录全曲播放，30首上限
 		else if(strcmp(__argv[1],"l")==0){
 			listfmp();
 			return 0;
@@ -72,14 +72,14 @@ int WINAPI WinMain( HINSTANCE hInstance,
 		return 0;
 	}
 
-	//命令[fmp r xxx.mp3]单曲循环
+
 	else if(__argc==3) {  
-		//命令[fmp r]单曲循环
+		//命令[fmp r xxx.mp3]单曲循环
 		if(strcmp(__argv[1],"r")==0){
 			fmp_singlerepeat();
 			return 0;
 		}
-		//命令[fmp p number]指定序号单曲
+		//命令[fmp p number]指定序号播放到末曲
 		else if(strcmp(__argv[1],"p")==0){
 			fmp_point();
 			return 0;
