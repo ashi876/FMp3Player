@@ -129,7 +129,7 @@ int fmp_stop()
 	sleep(1);
 	sprintf(cmd, "taskkill /f /t /im %s.exe",__argv[0]);//–¥»Îcmd√¸¡Ó
 	//printf("%s",cmd);
-	system(cmd);
+	WinExec(cmd,SW_HIDE);
 	return 0;
 }
 
