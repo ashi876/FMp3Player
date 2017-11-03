@@ -14,11 +14,12 @@
 		3.单曲循环:fmp r xxx.mp3
 		4.指定单曲到最后一首:fmp p number
 		5.指定序号单曲循环:fmp pr number
-		6.播放全曲:fmp l
-		7.关闭命令:fmp s
+		6.显示当前目录歌曲列表:fmp ls
+		7.播放全曲:fmp l
+		8.关闭命令:fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-		gcc -o3 -s fmp.c -lwinmm -mwindows -o fmp.exe
+		gcc -Os -s fmp.c -lwinmm -mwindows -o fmp.exe
 		
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
