@@ -11,11 +11,12 @@
 		3.单曲循环：fmp r xxx.mp3
 		4.指定序号到最后一首:fmp p number
 		5.指定序号单曲循环:fmp pr number
-		6.播放全曲：fmp l
-		7.关闭命令：fmp s
+		6.显示当前目录歌曲列表：fmp ls
+		7.播放全曲：fmp l
+		8.关闭命令：fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-		gcc -o3 -s fmp.c -lwinmm -mwindows -o fmp.exe
+		gcc -Os -s fmp.c -lwinmm -mwindows -o fmp.exe
 		
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
@@ -47,7 +48,8 @@ int WINAPI WinMain( HINSTANCE hInstance,
 {
 	int fmp_help();
 	int fmp_stop();
-	int fmp_list();
+	int fmp_lsmp3();
+	int fmp_loop();
 	int fmp_singlerepeat();
 	int fmp_singleplay();
 	int fmp_point();
@@ -66,7 +68,12 @@ int WINAPI WinMain( HINSTANCE hInstance,
 		}
 		//命令[fmp l]当前目录全曲播放，30首上限
 		else if(strcmp(__argv[1],"l")==0){
-			fmp_list();
+			fmp_loop();
+			return 0;
+		}
+		//命令[fmp ls]当前目录mp3编号例表
+		else if(strcmp(__argv[1],"ls")==0){
+			fmp_lsmp3();
 			return 0;
 		}
 		//命令[fmp xxx.mp3]单次播放 
@@ -98,23 +105,12 @@ int WINAPI WinMain( HINSTANCE hInstance,
 }
 
 /***************  以下为子函数实现具体功能部分  *************************/
-//发送字符串到 mci 并回显可能发生的错误编号和发送出的字符串
-void sendCommand(char *s)
-{
-	int i;
-	i=mciSendString(s,NULL,0,0);
-	
-	if(i){
-		sprintf(msg,"Error %d when sending %s\n",i,s);
-		MessageBox(NULL,msg,"fmp",MB_OK);
-	}
-}
 
 /************************************************************************/
 //命令[fmp]帮助窗口函数实现
 int fmp_help()
 {	
-	sprintf(msg,"Fmediaplay-%d位版\n命令格式:\n单曲：fmp xxx.mp3\n单曲循环：fmp r xxx.mp3\n指定序号到最后一首:fmp p number\n指定序号循环播放:fmp pr number\n播放全曲：fmp l\n关闭命令：fmp s", sizeof(int*)*8);
+	sprintf(msg,"Fmediaplay-%d位版\n命令格式:\n单曲：fmp xxx.mp3\n单曲循环：fmp r xxx.mp3\n指定序号到最后一首:fmp p number\n指定序号循环播放:fmp pr number\n显示当前目录歌曲列表：fmp ls\n播放全曲：fmp l\n关闭命令：fmp s", sizeof(int*)*8);
 	MessageBox(NULL,msg,"FMediaPlay 千城真人",MB_OK);
 	return 1;
 }
@@ -148,7 +144,7 @@ int fmp_singleplay()
 
 /************************************************************************/
 //命令[fmp l]函数实现		
-int fmp_list()
+int fmp_loop()
 {	
 
 	int i,j;
@@ -277,6 +273,42 @@ int fmp_pointrepeat()
     return 0;
 }
 
+/************************************************************************/
+//命令[fmp ls]当前目录mp3编号列表
+int fmp_lsmp3(int argc,char *argv[])
+{	
+	int i;
+	char ext[50]="*.mp3";
+	
+	AllocConsole();
+	freopen("CONOUT$", "w", stdout);
+		WIN32_FIND_DATA p;
+		HANDLE h=FindFirstFile(ext,&p);
+		printf("【%d】\t%s\n",1,p.cFileName);
+		i=2;
+		while(FindNextFile(h,&p)){
+		printf("【%d】\t%s\n",i,p.cFileName);
+		i++;
+		}
+		getch();//system("pause")	
+    return 0;
+}
+
+/************************************************************************/
+//播放子函数，发送字符串到 mci 并回显可能发生的错误编号和发送出的字符串
+//感谢cmdmp3win的作者带我入门，虽然这段我已经有自己的写法，但还是留着一小段吧
+void sendCommand(char *s)
+{
+	int i;
+	i=mciSendString(s,NULL,0,0);
+	
+	if(i){
+		sprintf(msg,"Error %d when sending %s\n",i,s);
+		MessageBox(NULL,msg,"fmp",MB_OK);
+	}
+}
+
+//播放子函数，可以用任何开源库替换这段．这个命令行mp3播放基本成熟了
 int fmp_play(char *filename)
 {
 	//void sendCommand(char *s);
