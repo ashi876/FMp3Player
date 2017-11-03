@@ -3,7 +3,7 @@
 	> 作者：千城真人
 	> 简介: win下的调用mci函数的mp3播放工具．可以在命令行下执行.
 	> 功能：可以单次和循环播放mp3
-	> 最后更新时间：20171103
+	> 时间：20171030
 	
 	> 使用方法：
 		1.将快捷方式放在右键<发送到>菜单，直接把mp3发送到本工具上
@@ -16,7 +16,7 @@
 		8.关闭命令：fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-		gcc -Os -s fmp.c -lwinmm -mwindows -o fmp.exe
+		gcc -O3 -s fmp.c -lwinmm -mwindows -o fmp.exe
 		
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
@@ -280,8 +280,9 @@ int fmp_lsmp3(int argc,char *argv[])
 	int i;
 	char ext[50]="*.mp3";
 	
-	AllocConsole();
+	AllocConsole();//这两条命令建立新控制台．在-mwindws参数下printf的方法之一
 	freopen("CONOUT$", "w", stdout);
+	
 		WIN32_FIND_DATA p;
 		HANDLE h=FindFirstFile(ext,&p);
 		printf("【%d】\t%s\n",1,p.cFileName);
