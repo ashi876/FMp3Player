@@ -16,7 +16,7 @@
 		8.关闭命令：fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-		gcc -O3 -s fmp.c -lwinmm -mwindows -o fmp.exe
+		gcc -Os -s fmp.c -lwinmm -mwindows -o fmp.exe
 		
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
@@ -110,7 +110,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 //命令[fmp]帮助窗口函数实现
 int fmp_help()
 {	
-	sprintf(msg,"Fmediaplay-%d位版\n命令格式:\n单曲：fmp xxx.mp3\n单曲循环：fmp r xxx.mp3\n指定序号到最后一首:fmp p number\n指定序号循环播放:fmp pr number\n显示当前目录歌曲列表：fmp ls\n播放全曲：fmp l\n关闭命令：fmp s", sizeof(int*)*8);
+	sprintf(msg,"Fmediaplay-%d位版v1.1\n命令格式:\n单曲：fmp xxx.mp3\n单曲循环：fmp r xxx.mp3\n指定序号到最后一首:fmp p number\n指定序号循环播放:fmp pr number\n显示当前目录歌曲列表：fmp ls\n播放全曲：fmp l\n关闭命令：fmp s", sizeof(int*)*8);
 	MessageBox(NULL,msg,"FMediaPlay 千城真人",MB_OK);
 	return 1;
 }
