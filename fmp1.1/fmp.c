@@ -148,11 +148,10 @@ int fmp_loop()
 {	
 
 	int i,j;
-	char *ext[1];//定义存放后缀名的指针数组
-	ext[1]="*.mp3";//可以用下一句指定后缀名//scanf("%s",&*ext[1]);
+	char ext[50]="*.mp3";//存放后缀名
 	
     WIN32_FIND_DATA p;
-    HANDLE h=FindFirstFile(ext[1],&p);//当前目录搜索mp3文件
+    HANDLE h=FindFirstFile(ext,&p);//当前目录搜索mp3文件
 
 	strcpy(listname[1],p.cFileName);//第一次写入数组
 	printf("%d %s\n",1,listname[1]);
@@ -197,11 +196,10 @@ int fmp_point()
 {	
 
 	int i,j;
-	char *ext[1];//存放后缀名的指针数组
-	ext[1]="*.mp3";//可以用下一句指定后缀名//scanf("%s",&*ext[1]);
+	char ext[50]="*.mp3";//存放后缀名
 	
     WIN32_FIND_DATA p;
-    HANDLE h=FindFirstFile(ext[1],&p);//当前目录搜索mp3文件
+    HANDLE h=FindFirstFile(ext,&p);//当前目录搜索mp3文件
     //puts(p.cFileName);//去掉注释，帮你理解此时输出了什么
 	strcpy(listname[1],p.cFileName);//第一次写入数组
 	printf("%d %s\n",1,listname[1]);
@@ -239,11 +237,10 @@ int fmp_pointrepeat()
 {	
 
 	int i,j;
-	char *ext[1];//存放后缀名的指针数组
-	ext[1]="*.mp3";//可以用下一句指定后缀名scanf("%s",&*ext[1]);
+	char ext[50]="*.mp3";//存放后缀名
 	
     WIN32_FIND_DATA p;
-    HANDLE h=FindFirstFile(ext[1],&p);//当前目录搜索mp3文件
+    HANDLE h=FindFirstFile(ext,&p);//当前目录搜索mp3文件
 	strcpy(listname[1],p.cFileName);//第一次写入数组
 	printf("%d %s\n",1,listname[1]);
 	
