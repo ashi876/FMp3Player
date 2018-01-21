@@ -18,9 +18,7 @@
 		7.播放全曲:fmp l
 		8.关闭命令:fmp s
 		
-	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-		gcc -Os -s fmp.c -lwinmm -mwindows -o fmp.exe
-		
 	注：放入windows文件夹全局使用更方便
 
 	>使用开源音频库以支持更多音频格式．(2.0版)
+	>使用bass音频库以支持更多音频格式．(3.0版)
