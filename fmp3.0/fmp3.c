@@ -124,7 +124,7 @@ int fmp_stop()
 	char cmd[100];//容纳cmd的字符串变量。
 
 	BASS_Free();
-	sleep(10);
+	sleep(1);
 	sprintf(cmd, "taskkill /f /t /im %s.exe",__argv[0]);
 	WinExec(cmd,SW_HIDE);
 	return 0;
@@ -294,7 +294,7 @@ int fmp_lsmp3(int argc,char *argv[])
 int plugin()
 {
 	//读取插件;
-	BASS_PluginLoad("./bassplugin/bass_ape.dll",0); // plugin loaded...
+	BASS_PluginLoad("./bassplugin/bass_ape.dll",0);
 	BASS_PluginLoad("./bassplugin/bassflac.dll",0);
 	return 0;
 }
