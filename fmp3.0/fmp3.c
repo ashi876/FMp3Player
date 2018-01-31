@@ -16,7 +16,7 @@
 		8.关闭命令：fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-	gcc -Wall -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
+	gcc -Wall -os -s -mwindows fmp3.c -IC:\npMingw64\mingw64\include -lwinmm -lbass -o fmp3.exe	
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
 *************************************************************************/
@@ -29,6 +29,7 @@
 #include <conio.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <dirent.h>
 /************************************************************************/
 char msg[256];
 extern int __argc;
@@ -134,7 +135,7 @@ int fmp_stop()
 //命令[fmp xxx.mp3]函数实现
 int fmp_singleplay()
 {
-	printf("单次播放");	
+	//printf("单次播放%s",__argv[1]);	
 	fmp_play(__argv[1]);
 	return 0;
 }
@@ -290,12 +291,25 @@ int fmp_lsmp3(int argc,char *argv[])
 }
 
 /************************************************************************/
-//播放子函数调用SDL2_mixer的mpg123开源音频库
+//播放子函数调用bass音频库
 int plugin()
 {
 	//读取插件;
-	BASS_PluginLoad("./bassplugin/bass_ape.dll",0);
-	BASS_PluginLoad("./bassplugin/bassflac.dll",0);
+	char dllpath[512];
+
+	DIR *dir = NULL; // 目录结构
+    struct dirent *ent = NULL; // 目录下的文件名或者目录的结构
+        
+	dir = opendir(".\\bassplugin\\");//默认显示当前目录下的
+
+        
+    while ((ent = readdir(dir))!=NULL) { // 可以用ent的d_name得到的字符串来分析是目录还是文件，进行相应的处理.
+	if(!strcmp(ent->d_name,".")||!strcmp(ent->d_name,".."))continue;
+	sprintf(dllpath,".\\bassplugin\\%s",ent->d_name);
+    BASS_PluginLoad(dllpath,0);
+    }
+    closedir(dir);
+
 	return 0;
 }
 		
