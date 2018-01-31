@@ -16,7 +16,7 @@
 		8.关闭命令：fmp s
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
-	gcc -Wall -os -s -mwindows fmp3.c -IC:\npMingw64\mingw64\include -lwinmm -lbass -o fmp3.exe	
+	gcc -Wall -os -s -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
 *************************************************************************/
@@ -295,20 +295,8 @@ int fmp_lsmp3(int argc,char *argv[])
 int plugin()
 {
 	//读取插件;
-	char dllpath[512];
-
-	DIR *dir = NULL; // 目录结构
-    struct dirent *ent = NULL; // 目录下的文件名或者目录的结构
-        
-	dir = opendir(".\\bassplugin\\");//默认显示当前目录下的
-
-        
-    while ((ent = readdir(dir))!=NULL) { // 可以用ent的d_name得到的字符串来分析是目录还是文件，进行相应的处理.
-	if(!strcmp(ent->d_name,".")||!strcmp(ent->d_name,".."))continue;
-	sprintf(dllpath,".\\bassplugin\\%s",ent->d_name);
-    BASS_PluginLoad(dllpath,0);
-    }
-    closedir(dir);
+	BASS_PluginLoad("./bassplugin/bass_ape.dll",0);
+    BASS_PluginLoad("./bassplugin/bassflac.dll",0);
 
 	return 0;
 }
@@ -327,6 +315,7 @@ int fmp_play(char *soundfile)
 	while (BASS_ChannelIsActive(TestSound));
 	
 	BASS_Free();
+	BASS_PluginFree(0);
 	return 0;
 }
 
