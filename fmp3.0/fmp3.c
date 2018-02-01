@@ -125,6 +125,7 @@ int fmp_stop()
 	char cmd[100];//容纳cmd的字符串变量。
 
 	BASS_Free();
+	BASS_PluginFree(0);
 	sleep(1);
 	sprintf(cmd, "taskkill /f /t /im %s.exe",__argv[0]);
 	WinExec(cmd,SW_HIDE);
@@ -295,8 +296,23 @@ int fmp_lsmp3(int argc,char *argv[])
 int plugin()
 {
 	//读取插件;
-	BASS_PluginLoad("./bassplugin/bass_ape.dll",0);
-    BASS_PluginLoad("./bassplugin/bassflac.dll",0);
+	DIR *dir = NULL; // 目录结构
+	struct dirent *ent = NULL; // 目录下的文件名或者目录的结构	
+	char temppath[260],pluginpath[260];//自身路径名和插件目录变量
+		
+	GetModuleFileName(NULL,temppath,260);//获取自身绝对路径，去掉文件名
+	char *ext=strrchr(temppath,'\\');
+	if (ext)*ext='\0';    
+
+    sprintf(pluginpath,"%s\\bassplugin\\",temppath);//写入插件路径
+	
+	dir = opendir(pluginpath);  //打开插件目录并读取      
+	while (NULL != (ent = readdir(dir))) {
+		if (!strcmp(ent->d_name,".")||!strcmp(ent->d_name,".."))continue;
+		sprintf(temppath,"%s%s",pluginpath,ent->d_name);//写入插件路径
+		BASS_PluginLoad(temppath,0);
+	}
+	closedir(dir);
 
 	return 0;
 }
