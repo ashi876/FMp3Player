@@ -56,7 +56,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 	int fmp_point();
 	int fmp_pointrepeat();
 	int fmp_lsmp3();
-	
+	int play_Dir();
 
 	//命令[fmp]帮助窗口
 	if(__argc<2) {
@@ -81,6 +81,7 @@ int WINAPI WinMain( HINSTANCE hInstance,
 		}
 		//命令[fmp xxx.mp3]单次播放 
 		fmp_singleplay();
+		play_Dir(__argv[1]);
 		return 0;
 	}
 
@@ -290,6 +291,24 @@ int fmp_lsmp3(int argc,char *argv[])
 		getch();//system("pause")	
     return 0;
 }
+
+/************************************************************************/
+//播放目录内所有支持的格式
+int play_Dir(char* p)
+{
+        DIR *dir = NULL; // 目录结构
+        struct dirent *ent = NULL; // 目录下的文件名或者目录的结构
+        
+		dir = opendir(p);  // 读取目录路径
+        while (NULL != (ent = readdir(dir))) { // 
+			char temppath[500];
+			sprintf(temppath,"%s\\%s",p,ent->d_name);
+			printf("%s\n",temppath);
+			fmp_play(temppath);
+		}
+	return 0;
+}
+
 
 /************************************************************************/
 //播放子函数调用bass音频库
