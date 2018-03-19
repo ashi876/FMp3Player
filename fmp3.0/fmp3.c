@@ -14,7 +14,7 @@
 		6.显示当前目录歌曲列表：fmp ls
 		7.播放全曲：fmp l
 		8.关闭命令：fmp s
-		9.加入鼠标框选播放和文件夹播放功能
+		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
 	gcc -Wall -os -s -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
 	注：命令4为播放当前目录下不含子文件夹的所有mp3	
@@ -102,6 +102,9 @@ int WINAPI WinMain( HINSTANCE hInstance,
 			fmp_pointrepeat();
 			return 0;
 		}
+		
+		//鼠标右键框选播放
+		while(--__argc)fmp_play(*++__argv);
 		return 0;
 	}
 	
@@ -296,7 +299,7 @@ int fmp_lsmp3(int argc,char *argv[])
 }
 
 /************************************************************************/
-//播放文件夹内所有支持的格式
+//播放目录内所有支持的格式
 int play_Dir(char* p)
 {
         DIR *dir = NULL; // 目录结构
