@@ -2,7 +2,7 @@
 	> 文件名: FMediaPlay v3.0
 	> 作者：千城真人
 	> 简介: win下的调用bass音频库,命令行下执行.
-	> 功能：可以单次和循环播放mp3
+	> 功能：命令的音乐文件播放工具，可添加bass库dll外部扩充音乐格式
 	> 初版时间：20180121
 	
 	> 使用方法：
@@ -14,10 +14,11 @@
 		6.显示当前目录歌曲列表：fmp ls
 		7.播放全曲：fmp l
 		8.关闭命令：fmp s
+		9.文件夹播放和鼠标框选播放
 		
 	>使用mgw_w64编译,各版mingw在win下编译百分之99有效，参考命令如下:
 	gcc -Wall -os -s -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
-	注：命令4为播放当前目录下不含子文件夹的所有mp3	
+	注：命令7为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
 *************************************************************************/
 #include "bass.h"
@@ -299,7 +300,7 @@ int fmp_lsmp3(int argc,char *argv[])
 }
 
 /************************************************************************/
-//播放目录内所有支持的格式
+//播放文件夹内所有支持的格式
 int play_Dir(char* p)
 {
         DIR *dir = NULL; // 目录结构
@@ -331,7 +332,7 @@ int plugin()
 
     sprintf(pluginpath,"%s\\bassplugin\\",temppath);//写入插件路径
 	
-	dir = opendir(pluginpath);  //打开插件目录并读取      
+	dir = opendir(pluginpath);  //打开插件目录并读取
 	while (NULL != (ent = readdir(dir))) {
 		if (!strcmp(ent->d_name,".")||!strcmp(ent->d_name,".."))continue;
 		sprintf(temppath,"%s%s",pluginpath,ent->d_name);//写入插件路径
