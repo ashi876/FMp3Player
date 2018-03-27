@@ -25,17 +25,14 @@
 #include "bass.h"
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <windows.h>
 #include <string.h>
-#include <conio.h>
-#include <unistd.h>
 #include <stdbool.h>
 #include <dirent.h>
 /************************************************************************/
 char msg[256];
-extern int __argc;
-extern char ** __argv;
+//extern int __argc;//mingw64_730gcc开始不用定义了
+//extern char** __argv;//会引起重复定义的警告
 
 char shortBuffer[MAX_PATH];
 char cmdBuff[MAX_PATH + 64];
@@ -43,7 +40,6 @@ char listname[31][100];
 char utf8name[100];
 
 int fmp_play(char* mpfile);
-char *localeToUTF8(char *src);
 /************************************************************************/
 int WINAPI WinMain( HINSTANCE hInstance, 
 					HINSTANCE hPrevInstance, 
@@ -135,7 +131,7 @@ int fmp_stop()
 
 	BASS_Free();
 	BASS_PluginFree(0);
-	sleep(1);
+	Sleep(1);
 	sprintf(cmd, "taskkill /f /t /im %s.exe",__argv[0]);
 	WinExec(cmd,SW_HIDE);
 	return 0;
@@ -296,7 +292,7 @@ int fmp_lsmp3(int argc,char *argv[])
 		printf("【%d】\t%s\n",i,p.cFileName);
 		i++;
 		}
-		getch();//system("pause")	
+		//getch();//system("pause")	
     return 0;
 }
 
@@ -304,16 +300,18 @@ int fmp_lsmp3(int argc,char *argv[])
 //播放文件夹内所有支持的格式
 int play_Dir(char* p)
 {
-        DIR *dir = NULL; // 目录结构
-        struct dirent *ent = NULL; // 目录下的文件名或者目录的结构
-        
-		dir = opendir(p);  // 读取目录路径
-        while (NULL != (ent = readdir(dir))) { // 
-			char temppath[500];
-			sprintf(temppath,"%s\\%s",p,ent->d_name);
-			printf("%s\n",temppath);
-			fmp_play(temppath);
-		}
+	DIR *dir = NULL; // 目录结构
+	struct dirent *ent = NULL; // 目录下的文件名或者目录的结构
+
+	dir = opendir(p);  // 读取目录路径
+	while (NULL != (ent = readdir(dir))) { // 
+		char temppath[500];
+		sprintf(temppath,"%s\\%s",p,ent->d_name);
+		printf("%s\n",temppath);
+		fmp_play(temppath);
+	}
+	closedir(dir);
+	free(dir);
 	return 0;
 }
 
