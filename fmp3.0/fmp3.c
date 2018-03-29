@@ -128,11 +128,14 @@ int fmp_stop()
 {
 	printf("执行关闭命令：%s %s\n",__argv[0],__argv[1]);	
 	char cmd[100];//容纳cmd的字符串变量。
-
+	
+	char fname[_MAX_FNAME];
+	_splitpath(__argv[0], 0, 0, fname, 0);
+	
 	BASS_Free();
 	BASS_PluginFree(0);
 	Sleep(1);
-	sprintf(cmd, "taskkill /f /t /im %s.exe",__argv[0]);
+	sprintf(cmd, "taskkill /f /t /im %s.exe",fname);
 	WinExec(cmd,SW_HIDE);
 	return 0;
 }
