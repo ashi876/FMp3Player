@@ -18,7 +18,7 @@
 		
 	mgw_w64编译实测通过,理论上支持各版的vs,bass环境需自行配置.
 	参考命令如下:
-	gcc -Wall -os -s -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
+	gcc -Wall -Os -s -mwindows fmp3.c -lwinmm -lbass -o fmp3.exe	
 	注：命令7为播放当前目录下不含子文件夹的所有mp3	
 	注：放入windows文件夹全局使用更方便
 *************************************************************************/
@@ -127,7 +127,7 @@ int fmp_help()
 int fmp_stop()
 {
 	printf("执行关闭命令：%s %s\n",__argv[0],__argv[1]);	
-	char cmd[100];//容纳cmd的字符串变量。
+	char cmd[_MAX_FNAME+64];//容纳cmd的字符串变量。
 	
 	char fname[_MAX_FNAME];
 	_splitpath(__argv[0], 0, 0, fname, 0);
@@ -326,7 +326,7 @@ int plugin()
 	//读取插件;
 	DIR *dir = NULL; // 目录结构
 	struct dirent *ent = NULL; // 目录下的文件名或者目录的结构	
-	char temppath[260],pluginpath[260];//自身路径名和插件目录变量
+	char temppath[260],pluginpath[260+64];//自身路径名和插件目录变量
 		
 	GetModuleFileName(NULL,temppath,260);//获取自身绝对路径，去掉文件名
 	char *ext=strrchr(temppath,'\\');
@@ -337,7 +337,10 @@ int plugin()
 	dir = opendir(pluginpath);  //打开插件目录并读取
 	while (NULL != (ent = readdir(dir))) {
 		if (!strcmp(ent->d_name,".")||!strcmp(ent->d_name,".."))continue;
-		sprintf(temppath,"%s%s",pluginpath,ent->d_name);//写入插件路径
+		
+		strcpy(temppath,pluginpath);
+		strcat(temppath,ent->d_name);
+		//sprintf(temppath,"%s%s",pluginpath,ent->d_name);//写入插件路径
 		BASS_PluginLoad(temppath,0);
 	}
 	closedir(dir);
