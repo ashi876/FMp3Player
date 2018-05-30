@@ -30,7 +30,7 @@
 #include <stdbool.h>
 #include <dirent.h>
 /************************************************************************/
-char msg[256];
+char msg[256+64];
 //extern int __argc;//mingw64_730gcc开始不用定义了
 //extern char** __argv;//会引起重复定义的警告
 
